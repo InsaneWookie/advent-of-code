@@ -14,11 +14,4 @@ class Part2Tests {
         println(result)
     }
 
-    @Test
-    fun test1() {
-
-        val input = listOf(1,2,3,4)
-        val actual = Part2(input).call()
-        assertEquals(2, actual)
-    }
 }
