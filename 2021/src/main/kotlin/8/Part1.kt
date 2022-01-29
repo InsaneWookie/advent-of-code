@@ -1,4 +1,4 @@
-package `7`
+package `8`
 
 import java.io.File
 import java.util.concurrent.Callable
@@ -16,22 +16,18 @@ fun main() {
 class Part1(private val input: List<String>) : Callable<Int> {
     override fun call(): Int {
 
-        val crabs = input[0].split(',').map { it.toInt() }
+        var out = 0
+        input.forEach {
+            val numbers = it.split(" | ")
 
-        var minFuel = Int.MAX_VALUE
-
-        var fuelCost = 0
-
-        for(i in crabs.indices){
-            fuelCost = 0
-            for(j in crabs.indices){
-                fuelCost += abs(crabs[i] - crabs[j])
-            }
-            if(fuelCost < minFuel){
-                minFuel = fuelCost
+            out += numbers[1].split(" ").fold(0) { acc, s ->
+                acc + when (s.length) {
+                    2, 3, 4, 7 -> 1
+                    else -> 0
+                }
             }
         }
 
-        return minFuel
+        return out
     }
 }

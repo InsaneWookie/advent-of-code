@@ -3,9 +3,8 @@ package `9`
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
-import kotlin.system.measureTimeMillis
 
-class Day9Tests {
+class Day8Tests {
 
 
     @Test

@@ -9,7 +9,7 @@ class Part2Tests {
     @Test
     fun solution() {
 
-        val input = File("src/main/kotlin/1/input.txt").readLines().map { it.toInt() }
+        val input = File("src/main/kotlin/1/input.txt").readLines()
         val result = Part2(input).call()
         println(result)
     }

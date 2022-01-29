@@ -1,19 +1,19 @@
-package `9`
+package `10`
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class Day9Tests {
+class Day10Tests {
 
 
     @Test
     fun `part 1 example`() {
 
-        val input = File("src/test/kotlin/9/example.txt").readLines()
+        val input = File("src/test/kotlin/10/example.txt").readLines()
 
         val actual = Part1(input).call()
-        assertEquals(15, actual)
+        assertEquals(26397, actual)
     }
 
     @Test

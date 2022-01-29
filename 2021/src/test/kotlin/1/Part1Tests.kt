@@ -8,14 +8,14 @@ class Part1Tests {
 
     @Test
     fun solution () {
-        val input = File("src/main/kotlin/1/input.txt").readLines().map { it.toInt() }
+        val input = File("src/main/kotlin/1/input.txt").readLines()
         val result = Part1(input).call()
         println(result)
     }
 
     @Test
     fun test1() {
-        val input = emptyList<Int>()
+        val input = emptyList<String>()
         val actual = Part1(input).call()
 
         assertEquals(0, actual)
@@ -23,7 +23,7 @@ class Part1Tests {
 
     @Test
     fun test2() {
-        val input = listOf(1,2,3)
+        val input = listOf("1","2","3")
         val actual = Part1(input).call()
 
         assertEquals(2, actual)

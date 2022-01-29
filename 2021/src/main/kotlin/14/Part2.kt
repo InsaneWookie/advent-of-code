@@ -1,105 +1,81 @@
-package `10`
+package `14`
 
-import java.math.BigInteger
+import java.io.File
 import java.util.concurrent.Callable
-import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.min
-import kotlin.math.roundToLong
 
-data class Point(val x: Int, val y: Int, val height : Int)
+fun main() {
 
+    println(File("").absolutePath)
+    val input = File("2021/src/main/kotlin/14/input.txt").readLines()
+
+    println(Part2(input).call())
+
+}
 
 class Part2(private val input: List<String>) : Callable<Int> {
 
 
-    fun findAdj(points: List<List<Int>>, x: Int, y: Int): MutableList<Point?> {
+    fun indexPairs(pairs: List<String>): Map<String, String> {
 
-        val adj = mutableListOf<Point?>(null,null,null,null)
+        val map = mutableMapOf<String, String>()
 
-        /*
-            0
-          3   1
-            2
-         */
+        pairs.forEach {
+            val p = it.split(" -> ")
 
-        if(points.getOrNull(y-1) != null && points[y].getOrNull(x) != null){
-            adj[0] = Point(x,y, (points[y-1][x]))
+            map.put(p[0], p[1])
         }
 
-        if(points.getOrNull(y) != null && points[y].getOrNull(x+1) != null){
-            adj[1] = Point(x,y,(points[y][x+1]))
-        }
+        return map.toMap()
 
-        if(points.getOrNull(y+1) != null && points[y].getOrNull(x) != null){
-            adj[2] = Point(x, y,(points[y+1][x]))
-        }
-
-        if(points.getOrNull(y) != null && points[y].getOrNull(x-1) != null){
-            adj[3] = Point(x,y,(points[y][x-1]))
-        }
-
-
-
-
-        return adj
     }
 
-//    fun getAdjPoints()
+    fun updatePolly(polly: List<String>, pairs: Map<String, String>): MutableList<String> {
+
+        val newPolly = mutableListOf<String>()
+
+        for(i in 0 until polly.size-1){
+            val key = polly[i] + polly[i+1]
+            val insert = pairs[key]!!
+
+            newPolly.add(polly[i])
+            newPolly.add(insert)
+        }
+
+        newPolly.add(polly.last())
+        return newPolly
+
+    }
+
+    fun calcSinglePolly(polly: Pair<String, String>, pairs: Map<String, String>): List<String> {
+
+        var nextPolly = listOf(polly.first, polly.second);
+        for (step in 1..40) {
+            nextPolly = updatePolly(nextPolly, pairs)
+
+        }
+
+        return nextPolly
+
+    }
 
     override fun call(): Int {
 
-        val points = input.map {
-            it.split("").filter { it.isNotBlank() }.map { it.toInt() }
-        }
+        val startPoly = input[0].split("").filter { it.isNotBlank() }.toMutableList()
 
-        val minPoints = mutableListOf<Point>()
-
-        val basins = mutableListOf<Int>()
-
-        for(y in points.indices){
-            for(x in points[y].indices){
-                val point = points[y][x]
-                val adj = findAdj(points, x, y)
-
-                if(adj.none { it != null && it.height <= point }){
-                    minPoints.add(Point(x,y, point))
-                }
-
-            }
-        }
+        val pairs = indexPairs(input.slice(2 until input.size))
 
 
 
-        for(i in minPoints.indices){
-            var searching = true
-            val basinPoints = getNextPoints(points, listOf(minPoints[i]))
+        val nextPolly = calcSinglePolly(Pair(startPoly[0], startPoly[1]), pairs)
 
-            println(basinPoints)
+        val counts = nextPolly.groupBy { it }.map { it.value.size }
 
-        }
+        val min = counts.minOf { it }
+        val max = counts.maxOf { it }
 
-        println(minPoints)
+//        val min = counts.minOf { it.value }
 
-
-
-        var out = basins.size
-
-
-        return out
+        return max - min
     }
 
-    fun getNextPoints(allPoints: List<List<Int>>, points: List<Point>) : List<Point> {
-
-        for (point in points) {
-            val adjPoints = findAdj(allPoints, point.x, point.y).filter {
-                it?.height == it!!.height + 1 && it.height < 9
-            }.filterNotNull()
-
-            return points + getNextPoints(allPoints, adjPoints)
-        }
-
-        return emptyList()
-
-    }
 }

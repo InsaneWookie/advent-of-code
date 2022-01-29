@@ -3,8 +3,9 @@ package `1`
 import java.util.concurrent.Callable
 
 
-class Part2(private val input: List<Int>) : Callable<Int> {
+class Part2(private val data: List<String>) : Callable<Int> {
     override fun call(): Int {
+        val input = data.map { it.toInt() }
         val threeSum = ArrayList<Int>()
 
         for (i in 2 until input.size) {

@@ -1,4 +1,4 @@
-package `7`
+package `8`
 
 import java.math.BigInteger
 import java.util.concurrent.Callable
@@ -9,42 +9,25 @@ import kotlin.math.roundToLong
 
 class Part2(private val input: List<String>) : Callable<Int> {
 
-    fun sumNums(end: Int): BigInteger {
-        var factorial = BigInteger.ZERO
-        for (i in 0 .. end) {
-            factorial = factorial.add(BigInteger.valueOf(i.toLong()))
-        }
 
-        return factorial
-    }
-
-    /**
-     * Formula for summing consecutive integers
-     */
-    fun sumNumsFast(end: Int): Long {
-        return ((end.toDouble()/2) * (1 + end)).roundToLong()
-    }
 
     override fun call(): Int {
 
-        val crabs = input[0].split(',').map { it.toInt() }
+        val out = 0
+        input.forEach { s ->
 
-        var minFuel = Int.MAX_VALUE
+            val numbers = s.split(" | ")
 
-        var fuelCost: Long
+            val a = numbers[0].split(" ")
+            val one = a.find { it.length == 2 }
+            val seven = a.find { it.length == 3 }
+            val four = a.find { it.length == 4 }
+            val eight = a.find { it.length == 7 }
 
-        for(i in 0 ..  crabs.maxOf { it }){
-            fuelCost = 0
-            for(j in crabs.indices){
-                val distance = abs(i - crabs[j])
-                val b = sumNumsFast(distance)
-                fuelCost += b
-            }
-            if(fuelCost < minFuel){
-                minFuel = fuelCost.toInt()
-            }
+
         }
 
-        return minFuel
+        return out
+
     }
 }
